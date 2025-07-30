@@ -79,8 +79,27 @@
     animation: floating 6s ease-in-out infinite;
   }
   
+  .floating-badge {
+    animation: floating-badge 8s ease-in-out infinite;
+  }
+  
   .pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+  
+  .neon-input {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+  }
+  
+  .neon-input:focus {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  }
+  
+  .noise-texture {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255,255,255,0.02) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(255,255,255,0.02) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(59,130,246,0.01) 0%, transparent 50%);
   }
   
   .starfield::before {
@@ -100,11 +119,21 @@
     background-size: 200px 100px;
     animation: twinkle 4s ease-in-out infinite;
   }
+  
+  .orb-glow {
+    filter: blur(1px);
+    opacity: 0.7;
+  }
 }
 
 @keyframes floating {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
+}
+
+@keyframes floating-badge {
+  0%, 100% { transform: translateY(0px) rotate(3deg); }
+  50% { transform: translateY(-15px) rotate(-3deg); }
 }
 
 @keyframes pulse-glow {
@@ -133,10 +162,19 @@
   }
 }
 
+@keyframes scan-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 .animate-spin-slow {
   animation: spin-slow 20s linear infinite;
 }
 
 .animate-fade-in-up {
   animation: fade-in-up 0.8s ease-out forwards;
+}
+
+.animate-scan-line {
+  animation: scan-line 2s linear infinite;
 }

@@ -4,6 +4,10 @@ import { ChevronDown, Github, Mail, Send, Globe, Shield, Brain, Code, Star, Rock
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import Navbar from '@/components/Navbar';
+import FloatingIdBadge from '@/components/FloatingIdBadge';
+import ContactModal from '@/components/ContactModal';
+import CircularProgress from '@/components/CircularProgress';
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -24,22 +28,22 @@ const Index = () => {
   if (!isLoaded) {
     return (
       <div className="fixed inset-0 bg-background flex items-center justify-center z-50">
-        <div className="text-center space-y-6">
-          <div className="relative w-24 h-24 mx-auto">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-spin-slow"></div>
-            <div className="absolute inset-2 rounded-full bg-background flex items-center justify-center">
-              <Globe className="w-8 h-8 text-cosmic" />
+          <div className="text-center space-y-6">
+            <div className="relative w-24 h-24 mx-auto">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-spin-slow"></div>
+              <div className="absolute inset-2 rounded-full bg-background flex items-center justify-center">
+                <Globe className="w-8 h-8 text-cosmic" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-xl font-semibold text-cosmic">Initializing Portfolio</h2>
+              <div className="flex items-center justify-center space-x-1">
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              </div>
             </div>
           </div>
-          <div className="space-y-2">
-            <h2 className="text-xl font-semibold text-cosmic">Initializing The Vault</h2>
-            <div className="flex items-center justify-center space-x-1">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
@@ -91,8 +95,22 @@ const Index = () => {
 
   return (
     <div className="relative min-h-screen overflow-x-hidden">
+      {/* Noise Texture Background */}
+      <div className="fixed inset-0 noise-texture -z-20"></div>
+      
       {/* Starfield Background */}
       <div className="fixed inset-0 starfield -z-10"></div>
+      
+      {/* Floating Orbs */}
+      <div className="fixed top-1/4 left-1/4 w-32 h-32 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-xl orb-glow floating -z-10"></div>
+      <div className="fixed top-3/4 right-1/4 w-24 h-24 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 blur-xl orb-glow floating -z-10" style={{ animationDelay: '2s' }}></div>
+      <div className="fixed bottom-1/4 left-1/3 w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 blur-xl orb-glow floating -z-10" style={{ animationDelay: '4s' }}></div>
+      
+      {/* Fixed Navbar */}
+      <Navbar />
+      
+      {/* Floating ID Badge */}
+      <FloatingIdBadge />
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6">
@@ -113,9 +131,9 @@ const Index = () => {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center max-w-4xl mx-auto animate-fade-in-up">
+        <div className="relative z-10 text-center max-w-4xl mx-auto animate-fade-in-up pt-20">
           <h1 className="text-6xl md:text-8xl font-bold mb-6 text-cosmic">
-            Welcome to The Vault
+            Portfolio by Abelion Lavv
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
             I don't just build code. I build <span className="text-cosmic font-semibold">cosmos</span>.
@@ -137,7 +155,7 @@ const Index = () => {
       </section>
 
       {/* About Section */}
-      <section className="py-20 px-6 relative">
+      <section id="about" className="py-20 px-6 relative">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-bold mb-4 text-cosmic">About Abelion</h2>
@@ -182,7 +200,7 @@ const Index = () => {
       </section>
 
       {/* Projects Section */}
-      <section className="py-20 px-6 relative">
+      <section id="projects" className="py-20 px-6 relative">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-bold mb-4 text-cosmic">Cosmic Creations</h2>
@@ -193,26 +211,34 @@ const Index = () => {
             {projects.map((project, index) => (
               <Card 
                 key={index} 
-                className="glass-effect hover:neon-glow transition-all duration-300 p-6 group cursor-pointer transform hover:scale-105"
+                className="glass-effect hover:neon-glow transition-all duration-500 p-6 group cursor-pointer transform hover:scale-105 hover:-translate-y-2 relative overflow-hidden"
               >
-                <div className="space-y-4">
+                {/* Hover overlay effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                <div className="relative z-10 space-y-4">
                   <div className="flex items-center space-x-3">
-                    <div className={`p-3 rounded-lg bg-gradient-to-r ${project.color}`}>
+                    <div className={`p-3 rounded-lg bg-gradient-to-r ${project.color} group-hover:scale-110 transition-transform duration-300`}>
                       {project.icon}
                     </div>
                     <h3 className="text-xl font-semibold text-cosmic group-hover:text-blue-300 transition-colors">
                       {project.title}
                     </h3>
                   </div>
-                  <p className="text-muted-foreground">{project.description}</p>
+                  <p className="text-muted-foreground group-hover:text-foreground transition-colors">
+                    {project.description}
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {project.tech.map((tech) => (
-                      <Badge key={tech} variant="outline" className="glass-effect text-xs">
+                      <Badge key={tech} variant="outline" className="glass-effect text-xs group-hover:bg-white/10">
                         {tech}
                       </Badge>
                     ))}
                   </div>
                 </div>
+                
+                {/* Animated border */}
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10"></div>
               </Card>
             ))}
           </div>
@@ -253,31 +279,25 @@ const Index = () => {
       </section>
 
       {/* Skills Section */}
-      <section className="py-20 px-6 relative">
-        <div className="max-w-4xl mx-auto">
+      <section id="skills" className="py-20 px-6 relative">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-bold mb-4 text-cosmic">Mastered Arts</h2>
             <p className="text-xl text-muted-foreground">Skills forged in the digital cosmos</p>
           </div>
           
-          <div className="space-y-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {skills.map((skill, index) => (
-              <div key={index} className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 rounded-lg glass-effect">
+              <div key={index} className="flex flex-col items-center space-y-4">
+                <CircularProgress percentage={skill.level} size={140}>
+                  <div className="text-center">
+                    <div className="p-3 rounded-full glass-effect mb-2">
                       {skill.icon}
                     </div>
-                    <span className="text-lg font-medium">{skill.name}</span>
+                    <div className="text-2xl font-bold text-cosmic">{skill.level}%</div>
                   </div>
-                  <span className="text-cosmic font-bold">{skill.level}%</span>
-                </div>
-                <div className="w-full bg-muted rounded-full h-3">
-                  <div 
-                    className="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-1000 neon-glow"
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
-                </div>
+                </CircularProgress>
+                <h3 className="text-lg font-medium text-center">{skill.name}</h3>
               </div>
             ))}
           </div>
@@ -285,7 +305,7 @@ const Index = () => {
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 px-6 relative">
+      <section id="contact" className="py-20 px-6 relative">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-6xl font-bold mb-6 text-cosmic">Let's Build Something Eternal</h2>
           <p className="text-xl text-muted-foreground mb-12">
@@ -300,7 +320,15 @@ const Index = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="neon-glow group">
+                <ContactModal 
+                  trigger={
+                    <Button size="lg" className="neon-glow group">
+                      <Send className="w-5 h-5 mr-2 group-hover:translate-x-1 transition-transform" />
+                      Send Message
+                    </Button>
+                  }
+                />
+                <Button size="lg" variant="outline" className="glass-effect group">
                   <Github className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
                   GitHub
                 </Button>
